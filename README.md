@@ -1,4 +1,6 @@
-# Telegram bot for Firefly III (alfa version! Can contain bugs, please send your issues!)
+# Telegram bot for Firefly III (alpha version! Can contain bugs, please send your issues!)
+
+![Docker Cloud Build Status](https://img.shields.io/docker/cloud/build/torbentee/firefly-iii-telegram-bot)
 
 This is bot for [firefly iii](https://github.com/firefly-iii/firefly-iii).
 
