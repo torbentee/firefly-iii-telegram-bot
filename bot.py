@@ -10,16 +10,20 @@ import firefly
 import users
 import traceback
 import json
+import os
 
 #########################################################################################
 # Basic config
 # 
 
 # Load configs
-content_file = open("config.json", 'r')
-content = content_file.read()
-content_file.close()
-CONFIGS = json.loads(content) #TODO: make error message if configs file doesn't exist or is corrupted
+#content_file = open("config.json", 'r')
+#content = content_file.read()
+#content_file.close()
+#CONFIGS = json.loads(content) #TODO: make error message if configs file doesn't exist or is corrupted
+CONFIGS = {
+    "telegram_token": os.environ.get('telegram_token'),
+}
 
 MESSAGES = {
     "welcome": "Welcome!",

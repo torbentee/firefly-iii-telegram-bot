@@ -9,7 +9,7 @@ class User:
     #     "authorized": True,
     #     "pocket": "MyPocket"
     # }
-    _filename = "data.json"
+    _filename = "config/data.json"
 
     users = []
     
