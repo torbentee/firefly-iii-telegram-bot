@@ -68,7 +68,7 @@ class ScheduledTeleBot(telebot.TeleBot):
                 schedule.run_pending()
                 self._TeleBot__retrieve_updates(timeout)
                 error_interval = .25
-            except apihelper.ApiException as e:
+            except telebot.apihelper.ApiException as e:
                 logger.error(e)
                 if not none_stop:
                     self._TeleBot__stop_polling.set()
