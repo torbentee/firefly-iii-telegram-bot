@@ -45,6 +45,7 @@ MESSAGES = {
     "request_for_server": "Please, tell me your firefly server url (for example `http://152.12.51.224` or `http://myfirefly.com`)",
     "request_for_server_failed_validation": "Doesn't look like server url",
     "request_for_oauth_key": "Please, tell me firefly access token (for example `eyJ0eXAiOiJKV1QiLCJZboci9iJSUzI1NiIsImp0aSI6ImY1YWY0Yzc2ZTBkNDliNjA2ZTAwZjcyYTc0YjQ4YzM4MTc1Y2JjNWI4MjU1MWU3NDMwNTM5MWJkNGRiYmU0NDk2ODE1MGRmYThhYjg0NzM2In0`)",
+    "mutual_error": "Sorry. Something went wrong. Try again!",
     #
     "rules_introduction": "You can send me spent money at any time (for example `123 tea`). Once a day I will ask you, how much money do you have in your pocket.",
     #
@@ -314,8 +315,11 @@ def _talk_about_spent_money(message_to_reply, message_number="",message_budget="
     else:
         try:
             markup = telebot.types.ReplyKeyboardRemove()
-            firefly.spend(message_to_reply.from_user.username, users, int(message_number), message_budget, message_text)
-            bot.reply_to(message_to_reply, MESSAGES["thankyou"], reply_markup=markup)
+            response = firefly.spend(message_to_reply.from_user.username, users, int(message_number), message_budget, message_text)
+            message = MESSAGES["thankyou"]
+            if not response:
+                message = MESSAGES["mutual_error"]
+            bot.reply_to(message_to_reply, message, reply_markup=markup)
         except Exception as err:
             print(err)
 

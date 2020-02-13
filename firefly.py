@@ -2,6 +2,10 @@ import urllib.request
 import requests
 import json
 import datetime
+import logging
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 class Firefly:
     def getBalances(self, username, users):
@@ -73,13 +77,13 @@ class Firefly:
         now = datetime.datetime.now()
         url = users.getAPIUrl(username)+'/api/v1/transactions'
         payload = {
-            "type": "withdrawal",
-            "description": message_text,
-            "date": now.strftime("%Y-%m-%d"),
+                "transactions[0][date]": now.strftime("%Y-%m-%d"),
+                "transactions[0][type]": "withdrawal",
             "transactions[0][amount]": message_number,
             "transactions[0][currency_code]": users.getPocketCurrency(username),
             "transactions[0][source_name]": users.getPocket(username),
-            "transactions[0][budget_name]": message_budget
+                "transactions[0][budget_name]": message_budget,
+                "transactions[0][description]": message_text
         }
         # Adding empty header as parameters are being sent in payload
         headers = {
@@ -87,7 +91,10 @@ class Firefly:
             "Accept": "application/json"
         }
         r = requests.post(url, data=payload, headers=headers)
-        # TODO: make a better one validation. r can be empty and will not be parsed further
+        if(r.status_code != 200):
+            logger.info(r.status_code)
+            logger.info(r.content)
+            return False
         data = json.loads(r.text)
         if data["data"]:
             return True
